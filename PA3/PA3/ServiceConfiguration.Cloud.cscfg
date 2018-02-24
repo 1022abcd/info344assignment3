@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="PA3" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="5" osVersion="*" schemaVersion="2015-04.2.6">
+  <Role name="WebRole1">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=acho;AccountKey=$(_acho.key_)" />
+      <Setting name="APPINSIGHTS_INSTRUMENTATIONKEY" value="093ab543-1042-4c70-aa17-e93bc469be84" />
+    </ConfigurationSettings>
+  </Role>
+  <Role name="WorkerRole1">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=acho;AccountKey=$(_acho.key_)" />
+      <Setting name="APPINSIGHTS_INSTRUMENTATIONKEY" value="093ab543-1042-4c70-aa17-e93bc469be84" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>

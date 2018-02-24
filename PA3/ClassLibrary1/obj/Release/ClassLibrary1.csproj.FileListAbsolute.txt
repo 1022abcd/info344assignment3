@@ -1,0 +1,13 @@
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\bin\Release\ClassLibrary1.dll
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\bin\Release\ClassLibrary1.pdb
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\bin\Release\Microsoft.WindowsAzure.Configuration.dll
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\bin\Release\Microsoft.WindowsAzure.Storage.dll
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\bin\Release\System.Configuration.ConfigurationManager.dll
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\bin\Release\Microsoft.Data.Edm.dll
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\bin\Release\Microsoft.Data.Services.Client.dll
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\bin\Release\Microsoft.Data.OData.dll
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\bin\Release\Microsoft.WindowsAzure.Configuration.xml
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\obj\Release\ClassLibrary1.csprojResolveAssemblyReference.cache
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\obj\Release\ClassLibrary1.csproj.CoreCompileInputs.cache
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\obj\Release\ClassLibrary1.dll
+C:\Users\Allen\source\repos\PA3\ClassLibrary1\obj\Release\ClassLibrary1.pdb
