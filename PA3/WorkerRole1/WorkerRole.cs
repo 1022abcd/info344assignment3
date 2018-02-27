@@ -25,10 +25,8 @@ namespace WorkerRole1
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
-
         private static string state;
         private static ConcurrentBag<string> disallowedUrl;
-        //private static int numberOfUrlsCrawled;
         private static int CpuUsage;
         private static int RamAvailable;
         private static HashSet<string> HtmlSet;
@@ -40,84 +38,91 @@ namespace WorkerRole1
             disallowedUrl = new ConcurrentBag<string>();
             robotsdisc = new Dictionary<Uri, Robots>();
             state = "Idle";
-            //CpuUsage = 0;
-            //RamAvailable = 0;
             HtmlSet = new HashSet<string>();
 
             while(true)
-            {
-
-                new Task(GetPerfCounters).Start();
+            {            
                 CloudQueueMessage commandMessage = StorageManager.CommandQueue().GetMessage();
                 if (commandMessage != null)
                 {
                     switch (commandMessage.AsString)
                     {
-                        case "Start Crawling":
+                        case "startcrawling":
                             state = "Loading";
+                            StorageManager.CommandQueue().DeleteMessage(commandMessage);
                             break;
-                        case "Stop Crawling":
+                        case "stopcrawling":
                             state = "Idle";
+                            StorageManager.CommandQueue().DeleteMessage(commandMessage);
+                            break;
+                        case "clear":
+                            StorageManager.LinkQueue().Clear();
+                            StorageManager.CommandQueue().Clear();
+                            StorageManager.HTMLQueue().Clear();
+                            StorageManager.GetTable().DeleteIfExists();
+                            StorageManager.PerformanceCounterTable().DeleteIfExists();
+                            StorageManager.ErrorTable().DeleteIfExists();
                             break;
                         default:
                             break;
                     }
-                    StorageManager.CommandQueue().DeleteMessage(commandMessage);
-                    if (state.Equals("Loading") || state.Equals("Crawling"))
-                    {
-                            
-                            CrawlUrl();
-                            GetHTMLData();
-                            new Task(GetPerfCounters).Start();
-                    }
+                    
+                    
                 }
+                new Task(GetPerfCounters).Start();
+                if (state.Equals("Loading"))
+                {
+                    new Task(GetPerfCounters).Start();
+                    CrawlUrl();
+                    
+                }
+                else if (state.Equals("Crawling"))
+                {
+                    new Task(GetPerfCounters).Start();
+                    GetHTMLData();
+                }
+                
             }
         }
 
         private void CrawlUrl()
         {
-            while (state.Equals("Loading") && !state.Equals("Idle"))
+            new Task(GetPerfCounters).Start();
+            Thread.Sleep(100);
+            CloudQueueMessage linkMessage = StorageManager.LinkQueue().GetMessage();
+            if (linkMessage != null)
             {
-                if (state.Equals("Idle"))
-                {
-                    return;
-                }
-                new Task(GetPerfCounters).Start();
-                Thread.Sleep(100);
-                CloudQueueMessage linkMessage = StorageManager.LinkQueue().GetMessage();
-                if (linkMessage != null)
-                {
-                    string stringifiedLink = linkMessage.AsString;
+                string stringifiedLink = linkMessage.AsString;
 
-                    // if the message is robots.txt
-                    if (stringifiedLink.EndsWith("robots.txt"))
+                // if the message is robots.txt
+                if (stringifiedLink.EndsWith("robots.txt"))
+                {
+                    HandleRobotstxt(stringifiedLink);
+                    stringifiedLink = "";
+                    StorageManager.LinkQueue().DeleteMessage(linkMessage);
+                }
+                // if the message is url.xml
+                else
+                {
+                    // if the link contains more xml links
+                    if (stringifiedLink.Contains("-index"))
                     {
-                        HandleRobotstxt(stringifiedLink);
-                        stringifiedLink = "";
-                        StorageManager.LinkQueue().DeleteMessage(linkMessage);
+                        CrawlSiteMapIndex(stringifiedLink);
                     }
-                    // if the message is url.xml
+                    // if the link contains html links
                     else
                     {
-                        // if the link contains more xml links
-                        if (stringifiedLink.Contains("-index"))
-                        {
-                            CrawlSiteMapIndex(stringifiedLink);
-                        }
-                        // if the link contains html links
-                        else
-                        {
-                            CrawlSiteMap(stringifiedLink);
-                        }
-                        StorageManager.LinkQueue().DeleteMessage(linkMessage);
-                        if(StorageManager.LinkQueue().GetMessage() == null)
-                        {
-                            state = "Crawling";
-                        }
+                        CrawlSiteMap(stringifiedLink);
                     }
-                    
+                    StorageManager.LinkQueue().DeleteMessage(linkMessage);
+
+                    if (StorageManager.LinkQueue().GetMessage() == null)
+                    {
+                        state = "Crawling";
+                    }
                 }
             }
+            
         }
 
         private void HandleRobotstxt(string message)
@@ -128,10 +133,6 @@ namespace WorkerRole1
                 Uri mainUri = new Uri(message.Replace("/robots.txt", ""));
                 while (!reader.EndOfStream)
                 {
-                    if (state.Equals("Idle"))
-                    {
-                        return;
-                    }
                     String line = reader.ReadLine();
                     if (line.Contains("Sitemap"))
                     {
@@ -150,10 +151,6 @@ namespace WorkerRole1
                     }
                 }
             }
-            if (disallowedUrl.Count >= 40)
-            {
-                state = "Crawling";
-            }
         }
 
         private void CrawlSiteMapIndex(string link)
@@ -168,16 +165,14 @@ namespace WorkerRole1
 
             foreach (var sitemapElement in sitemap.Elements(sitemaps))
             {
-                string locElement = sitemapElement.Element(loc).Value;
+                string locLink = sitemapElement.Element(loc).Value;
                 publishDate = DateTime.Parse(sitemapElement.Element(time).Value);
 
                 if (publishDate > givendate)
                 {
-                    StorageManager.LinkQueue().AddMessage(new CloudQueueMessage(locElement));
+                    StorageManager.LinkQueue().AddMessage(new CloudQueueMessage(locLink));
                 }
             }
-
-
         }
 
         private void CrawlSiteMap(string link)
@@ -191,16 +186,18 @@ namespace WorkerRole1
             XName newsPublicationDate = XName.Get("publication_date", "http://www.google.com/schemas/sitemaps-news/0.9");
             XName video = XName.Get("video", "http://www.google.com/schemas/sitemap-video/1.1");
             XName videoPublicationDate = XName.Get("publication_date", "http://www.google.com/schemas/sitemap-video/1.1");
-            if (link.Contains("bleacher.com"))
+            DateTime givendate = new DateTime(2017, 12, 1);
+            DateTime publishDate = new DateTime(1000, 01, 01);
+            if (link.Contains("bleacherreport.com"))
             {
                 selectLink = "http://www.google.com/schemas/sitemap/0.9";
+                publishDate = DateTime.Today;
             }
 
             url = XName.Get("url", selectLink);
             loc = XName.Get("loc", selectLink);
 
-            DateTime givendate = new DateTime(2017, 12, 1);
-            DateTime publishDate = new DateTime(1000, 01, 01);
+            
             try
             {
                 foreach (var urlElement in whole.Elements(url))
@@ -217,7 +214,7 @@ namespace WorkerRole1
                     else if (urlElement.Element(lastmod) != null)
                     {
                         publishDate = DateTime.Parse(urlElement.Element(lastmod).Value);
-                    }
+                    } 
 
                     if(publishDate != null)
                     {
@@ -241,35 +238,26 @@ namespace WorkerRole1
 
         private void GetHTMLData()
         {
-            HashSet<string> tableList = new HashSet<string>();
+            HashSet<string> tableHash = new HashSet<string>();
             HtmlWeb htmlWeb = new HtmlWeb();
             HtmlDocument webpage = new HtmlDocument();
-
-            while (state.Equals("Crawling") && !state.Equals("Idle"))
+            new Task(GetPerfCounters).Start();
+            Thread.Sleep(100);
+            CloudQueueMessage htmllink = StorageManager.HTMLQueue().GetMessage();
+            string url = htmllink.AsString;
+            if (!IsDisallow(url) && htmllink != null)
             {
-                if (state.Equals("Idle"))
+                    
+                if (!tableHash.Contains(url))
                 {
-                    return;
-                }
-                new Task(GetPerfCounters).Start();
-                Thread.Sleep(100);
-                CloudQueueMessage htmllink = StorageManager.HTMLQueue().GetMessage();
-                string url = htmllink.AsString;
-                Uri currentUri = new Uri(url);
-                if (htmllink == null)
-                {
-                    break;
-                }
-                else if (!tableList.Contains(url))
-                {
-                    tableList.Add(url);
-                    using(var client = new WebClient())
+                    tableHash.Add(url);
+                    using (var client = new WebClient())
                     {
                         try
                         {
                             webpage.LoadHtml(client.DownloadString(url));
                             DateTime pubdlication;
-                            
+                            Uri currentUri = new Uri(url);
                             HtmlNode pubdateHTML = webpage.DocumentNode.SelectSingleNode("//head/meta[@name='lastmod']");
                             if (pubdateHTML != null)
                             {
@@ -279,12 +267,8 @@ namespace WorkerRole1
                             {
                                 pubdlication = DateTime.Today;
                             }
-                            string scrapeLink = "http://" + currentUri.Host + currentUri.PathAndQuery;
                             string title = webpage.DocumentNode.SelectSingleNode("//head/title").InnerText ?? "";
-                            PageEntity urlElement = new PageEntity(title, scrapeLink, pubdlication);
-                            TableOperation insertOp = TableOperation.InsertOrReplace(urlElement);
-                            StorageManager.GetTable().Execute(insertOp);
-
+                            StorageManager.GetTable().Execute(TableOperation.InsertOrReplace(new PageEntity(title, url, pubdlication)));
                             HtmlNodeCollection href = webpage.DocumentNode.SelectNodes("//a[@href]");
                             if (href != null)
                             {
@@ -299,11 +283,10 @@ namespace WorkerRole1
                                     {
                                         templink = "http://" + currentUri.Host + templink;
                                     }
-                                    if(!HtmlSet.Contains(templink))
+                                    if (!HtmlSet.Contains(templink))
                                     {
                                         HtmlSet.Add(templink);
-                                        CloudQueueMessage message1 = new CloudQueueMessage(templink);
-                                        StorageManager.HTMLQueue().AddMessageAsync(message1);
+                                        StorageManager.HTMLQueue().AddMessageAsync(new CloudQueueMessage(templink));
                                     }
                                 }
                             }
@@ -313,34 +296,43 @@ namespace WorkerRole1
                             if (!HtmlSet.Contains(htmllink.AsString))
                             {
                                 HtmlSet.Add(htmllink.AsString);
-                                ErrorMessage urlerrorElement = new ErrorMessage(htmllink.AsString, e.Message);
-                                TableOperation insertOp = TableOperation.InsertOrReplace(urlerrorElement);
+                                TableOperation insertOp = TableOperation.InsertOrReplace(new ErrorMessage(htmllink.AsString, e.Message));
                                 StorageManager.ErrorTable().Execute(insertOp);
                             }
                         }
                     }
                 }
-                StorageManager.HTMLQueue().DeleteMessage(htmllink);
+                    
             }
+            StorageManager.HTMLQueue().DeleteMessage(htmllink);
         }
-        public void GetPerfCounters()
+        private void GetPerfCounters()
         {
             PerformanceCounter mem = new PerformanceCounter("Memory", "Available MBytes", null);
             PerformanceCounter cpu = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             float perfCounterValue = cpu.NextValue();
 
-            //Thread has to sleep for at least 1 sec for accurate value.
             System.Threading.Thread.Sleep(1000);
-
-            perfCounterValue = cpu.NextValue();
-            CpuUsage = (int) perfCounterValue;
+            CpuUsage = (int) cpu.NextValue();
             RamAvailable = (int) mem.NextValue();
 
-            PerformanceCounterEntity counter = new PerformanceCounterEntity(CpuUsage, RamAvailable);
+            PerformanceCounterEntity counter = new PerformanceCounterEntity(CpuUsage, RamAvailable, state);
             TableOperation insertOp = TableOperation.InsertOrReplace(counter);
             StorageManager.PerformanceCounterTable().Execute(insertOp);
         }
 
+        public bool IsDisallow(string url)
+        {
+            bool result = false;
+            foreach (string noEntering in disallowedUrl)
+            {
+                if (url.Contains(noEntering))
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
         public override bool OnStart()
         {
             // Set the maximum number of concurrent connections

@@ -9,8 +9,8 @@
     <AzureEnableRemoteDesktop>True</AzureEnableRemoteDesktop>
     <AzureEnableWebDeploy>False</AzureEnableWebDeploy>
     <AzureFallbackToDeleteAndRecreateIfUpgradeFails>False</AzureFallbackToDeleteAndRecreateIfUpgradeFails>
-    <AzureHostedServiceLabel>achof</AzureHostedServiceLabel>
-    <AzureHostedServiceName>achof</AzureHostedServiceName>
+    <AzureHostedServiceLabel>1022abcd</AzureHostedServiceLabel>
+    <AzureHostedServiceName>1022abcd</AzureHostedServiceName>
     <AzureEnableIntelliTrace>False</AzureEnableIntelliTrace>
     <AzureEnableProfiling>False</AzureEnableProfiling>
     <AzureServiceConfiguration>Cloud</AzureServiceConfiguration>
@@ -19,6 +19,7 @@
     <AzureStorageAccountName>acho</AzureStorageAccountName>
     <AzureAppendTimestampToDeploymentLabel>True</AzureAppendTimestampToDeploymentLabel>
     <EnableApplicationInsights>True</EnableApplicationInsights>
-    <AzureHostedServiceResourceGroup />
+    <AzureHostedServiceResourceGroup>
+    </AzureHostedServiceResourceGroup>
   </PropertyGroup>
 </Project>

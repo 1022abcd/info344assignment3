@@ -34,7 +34,7 @@ namespace ClassLibrary1
         public static CloudQueue CommandQueue()
         {
             CloudQueueClient clientQueue = storageAccount.CreateCloudQueueClient();
-            CloudQueue queue = clientQueue.GetQueueReference("commandqueue");
+            CloudQueue queue = clientQueue.GetQueueReference("commandqueue2");
             queue.CreateIfNotExists();
             return queue;
         }

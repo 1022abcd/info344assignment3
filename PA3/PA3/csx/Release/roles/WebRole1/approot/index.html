@@ -16,24 +16,24 @@
         </div>
         <br />
 
-        <div> Link Queue Size</div>
-        <div id="htmlcount">0</div>
+        <div>XML Queue Size</div>
+        <div id="xmlCount"></div>
         <br />
 
         <div> HTML links Found</div>
-        <div id="crawlCount">0</div>
+        <div id="htmlCount"></div>
         <br />
 
         <div>Current Crawl State</div>
-        <div id="state">Idle</div>
+        <div id="state"></div>
         <br />
 
         <div> Memory</div>
-        <div id="memory">0</div>
+        <div id="memory"></div>
         <br />
 
         <div>CPU Usage</div>
-        <div id="cpu">0</div>
+        <div id="cpu"></div>
         <br />
 
         <div>Last 10 Url</div>
@@ -43,6 +43,10 @@
         <div>Error</div>
         <div id="error"></div>
         <br />
+
+        <input type="text" id="input">
+        <input type="submit" value="Submit" onclick="findTitle();" />
+        <div id="title"></div>
 
     </div>
 </body>

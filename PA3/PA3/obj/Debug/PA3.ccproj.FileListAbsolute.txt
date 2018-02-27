@@ -1,5 +1,7 @@
 C:\Users\Allen\source\repos\PA3\PA3\bin\Debug\ServiceConfiguration.cscfg
 C:\Users\Allen\source\repos\PA3\PA3\bin\Debug\ServiceDefinition.csdef
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\ClassLibrary1.dll
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\ClassLibrary1.pdb
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\de\Microsoft.Data.Edm.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\de\Microsoft.Data.OData.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\de\Microsoft.Data.Services.Client.resources.dll
@@ -12,6 +14,8 @@ C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\fr\Microsoft.Data.Edm
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\fr\Microsoft.Data.OData.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\fr\Microsoft.Data.Services.Client.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\fr\System.Spatial.resources.dll
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\HtmlAgilityPack.dll
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\HtmlAgilityPack.pdb
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\it\Microsoft.Data.Edm.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\it\Microsoft.Data.OData.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\it\Microsoft.Data.Services.Client.resources.dll
@@ -33,6 +37,7 @@ C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\Microsoft.WindowsAzur
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\Microsoft.WindowsAzure.Storage.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\MonAgentListener.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\Newtonsoft.Json.dll
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\RobotsTxt.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\roslyn\csc.exe
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\roslyn\csc.exe.config
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\roslyn\csc.rsp
@@ -85,9 +90,13 @@ C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\ru\Microsoft.Data.Edm
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\ru\Microsoft.Data.OData.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\ru\Microsoft.Data.Services.Client.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\ru\System.Spatial.resources.dll
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\System.Configuration.ConfigurationManager.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\System.Spatial.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\WebRole1.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\WebRole1.pdb
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\WorkerRole1.dll
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\WorkerRole1.dll.config
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\WorkerRole1.pdb
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\zh-Hans\Microsoft.Data.Edm.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\zh-Hans\Microsoft.Data.OData.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\zh-Hans\Microsoft.Data.Services.Client.resources.dll
@@ -96,6 +105,8 @@ C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\zh-Hant\Microsoft.Dat
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\zh-Hant\Microsoft.Data.OData.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\zh-Hant\Microsoft.Data.Services.Client.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\zh-Hant\System.Spatial.resources.dll
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\ClassLibrary1.dll
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\ClassLibrary1.pdb
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\de\Microsoft.Data.Edm.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\de\Microsoft.Data.OData.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\de\Microsoft.Data.Services.Client.resources.dll
@@ -108,6 +119,8 @@ C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\fr\Microsoft.Data.Edm.
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\fr\Microsoft.Data.OData.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\fr\Microsoft.Data.Services.Client.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\fr\System.Spatial.resources.dll
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\HtmlAgilityPack.dll
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\HtmlAgilityPack.pdb
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\it\Microsoft.Data.Edm.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\it\Microsoft.Data.OData.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\it\Microsoft.Data.Services.Client.resources.dll
@@ -128,6 +141,7 @@ C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\Microsoft.WindowsAzure
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\Microsoft.WindowsAzure.Storage.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\MonAgentListener.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\Newtonsoft.Json.dll
+C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\RobotsTxt.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\ru\Microsoft.Data.Edm.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\ru\Microsoft.Data.OData.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\ru\Microsoft.Data.Services.Client.resources.dll
@@ -145,20 +159,6 @@ C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\zh-Hant\Microsoft.Data
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\zh-Hant\Microsoft.Data.OData.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\zh-Hant\Microsoft.Data.Services.Client.resources.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\zh-Hant\System.Spatial.resources.dll
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\ClassLibrary1.dll
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\ClassLibrary1.pdb
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\ClassLibrary1.dll
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\ClassLibrary1.pdb
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\WorkerRole1.dll
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\WorkerRole1.dll.config
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\WorkerRole1.pdb
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\System.Configuration.ConfigurationManager.dll
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\HtmlAgilityPack.dll
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\HtmlAgilityPack.pdb
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\bin\RobotsTxt.dll
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\HtmlAgilityPack.dll
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\HtmlAgilityPack.pdb
-C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WorkerRole1\RobotsTxt.dll
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\Admin.asmx
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\index.html
 C:\Users\Allen\source\repos\PA3\PA3\obj\Debug\WebRole1\Web.config

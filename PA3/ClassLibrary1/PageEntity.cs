@@ -9,6 +9,11 @@ namespace ClassLibrary1
 {
     public class PageEntity : TableEntity
     {
+
+        public PageEntity()
+        {
+
+        }
         public PageEntity(string title, string url, DateTime time)
         {
             this.PartitionKey = new HashUrl(url).encoded;

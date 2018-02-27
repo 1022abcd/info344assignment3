@@ -13,15 +13,18 @@ namespace ClassLibrary1
         {
 
         }
-        public PerformanceCounterEntity(int cpuusage,  int ramavailable)
+        public PerformanceCounterEntity(int cpuusage,  int ramavailable, string state)
         {
             this.PartitionKey = "PerformanceCounter";
             this.RowKey = "1";
             this.CPUUsage = cpuusage;
             this.RamAvailable = ramavailable;
+            this.State = state;
+            
         }
 
         public int CPUUsage { get; set; }
         public int RamAvailable { get; set; }
+        public string State { get; set; }
     }
 }

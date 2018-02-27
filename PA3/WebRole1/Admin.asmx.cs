@@ -21,7 +21,7 @@ namespace WebRole1
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
-    // [System.Web.Script.Services.ScriptService]
+    [System.Web.Script.Services.ScriptService]
     public class Admin : System.Web.Services.WebService
     {
         public Admin() {
@@ -32,9 +32,11 @@ namespace WebRole1
         public string StartCrawling()
         {
             CloudQueueMessage cnn = new CloudQueueMessage("http://www.cnn.com/robots.txt");
-            CloudQueueMessage checking = new CloudQueueMessage("https://www.cnn.com/sitemaps/sitemap-profile-2018-02.xml");
+            CloudQueueMessage bleacher = new CloudQueueMessage("http://www.bleacherreport.com/robots.txt");
+            //CloudQueueMessage checking = new CloudQueueMessage("https://www.cnn.com/sitemaps/sitemap-profile-2018-02.xml");
             StorageManager.LinkQueue().AddMessage(cnn);
-            StorageManager.CommandQueue().AddMessage(new CloudQueueMessage("Start Crawling"));
+            StorageManager.LinkQueue().AddMessage(bleacher);
+            StorageManager.CommandQueue().AddMessage(new CloudQueueMessage("startcrawling"));
             return "Initated";
         }
 
@@ -42,33 +44,32 @@ namespace WebRole1
         [WebMethod]
         public string StopCrawling()
         {
-            StorageManager.CommandQueue().AddMessage(new CloudQueueMessage("Stop Crawling"));
+            StorageManager.CommandQueue().AddMessage(new CloudQueueMessage("stopcrawling"));
             return "Stop Crawling";
+
         }
 
         [WebMethod]
         public string ClearIndex()
         {
-            StorageManager.LinkQueue().Clear();
-            StorageManager.CommandQueue().Clear();
-            StorageManager.HTMLQueue().Clear();
-            StorageManager.GetTable().DeleteIfExists();
-            StorageManager.ErrorTable().DeleteIfExists();
-            return "Clear Index";
+            StorageManager.CommandQueue().AddMessage(new CloudQueueMessage("clear"));
+            return "Cleared";
         }
 
         [WebMethod]
         public string GetLinkQueueCount()
         {
-            StorageManager.LinkQueue().FetchAttributes();
-            return StorageManager.LinkQueue().ApproximateMessageCount.ToString();
+            CloudQueue queue = StorageManager.LinkQueue();
+            queue.FetchAttributes();
+            return queue.ApproximateMessageCount.ToString();
         }
 
         [WebMethod]
         public string GetHTMLQueueCount()
         {
-            StorageManager.HTMLQueue().FetchAttributes();
-            return StorageManager.HTMLQueue().ApproximateMessageCount.ToString();
+            CloudQueue queue = StorageManager.HTMLQueue();
+            queue.FetchAttributes();
+            return queue.ApproximateMessageCount.ToString();
         }
 
         [WebMethod]
@@ -109,23 +110,54 @@ namespace WebRole1
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public string GetPageTitle(string url)
+        public string LastTenTable()
         {
-            if(!url.StartsWith("http"))
+            var table = StorageManager.GetTable().CreateQuery<PageEntity>()
+                .Where(s => s.RowKey == "1")
+                //.OrderByDescending(r => r.Timestamp)
+                .Take(10);
+
+            List<string> lastten = new List<string>();
+            foreach (var data in table)
             {
-                url = "http://" + url;
+                lastten.Add(data.Url);
             }
-            string hashedurl = new HashUrl(url).encoded;
-            TableOperation retrieveOperation = TableOperation.Retrieve<PageEntity>(hashedurl, "1");
-            TableResult retrievedResult = StorageManager.GetTable().Execute(retrieveOperation);
+            return new JavaScriptSerializer().Serialize(lastten);
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public string GetPageTitle(string link)
+        {
+            if(!link.StartsWith("http"))
+            {
+                link = "http://" + link;
+            }
+            TableResult retrievedResult = StorageManager.GetTable().Execute(TableOperation.Retrieve<PageEntity>(new HashUrl(link).encoded, "1"));
             if (retrievedResult.Result == null)
             {
                 return "No Result";
             }
             else
             {
-                return new JavaScriptSerializer().Serialize(retrievedResult.Result);
+                return new JavaScriptSerializer().Serialize(((PageEntity)retrievedResult.Result).Title);
             }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public string GetState()
+        {
+            var mostRecentState = StorageManager.PerformanceCounterTable().CreateQuery<PerformanceCounterEntity>()
+                .Where(x => x.PartitionKey == "PerformanceCounter")
+                .Take(1);
+
+            List<string> states = new List<string>();
+            foreach (var state in mostRecentState)
+            {
+                states.Add("" + state.State);
+            }
+            return new JavaScriptSerializer().Serialize(states);
         }
     }
 }
